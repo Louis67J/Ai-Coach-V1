@@ -1,1 +1,21 @@
-
+# example_config.yaml
+INTERVALS_BASE: "https://intervals.icu/api/v1"
+DAYS_LOOKBACK: 30
+OPENAI_MODEL: "gpt-4o-mini"     # or gpt-4o-mini if you have access; you can change
+ATHLETE:
+  name: "Louis Jeuch"
+  weight_kg: 63.5
+  ftp: 305
+  fcm: 196
+  preferences:
+    timezone: "Europe/Paris"
+    preferred_delivery: "email"
+TELEGRAM:
+  enabled: true
+  chat_id: "YOUR_CHAT_ID"
+  bot_token_secret_name: "TG_BOT_TOKEN"
+EMAIL:
+  enabled: false
+  smtp_server: "gmail.com"
+  smtp_user: "louis.jeuch@gmail.com"
+  smtp_to: "louis.jeuch@gmail.com"
