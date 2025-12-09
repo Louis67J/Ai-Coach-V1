@@ -2,23 +2,39 @@ name: Daily AI Coach
 
 on:
   schedule:
-    - cron: "0 21 * * *"  # runs every day at 22:00 UTC
-  workflow_dispatch:
+    - cron: '0 21 * * *'  # runs each day at 22:00 UTC; adjust timezone as needed
+  workflow_dispatch:   # allows manual trigger
 
 jobs:
   run:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: "3.11"
 
-      - name: Install libs
-        run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run coach pipeline
-        run: python analysis/run_ai_pipeline.py
+      - name: Run AI Coach
+        env:
+          INTERVALS_API_KEY: ${{ secrets.INTERVALS_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          python src/main.py
+
+      - name: Upload artifacts (graphs + json)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-coach-output
+          path: |
+            outputs/*.png
+            outputs/summary.json
