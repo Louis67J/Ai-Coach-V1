@@ -2,20 +2,25 @@
 import os
 import yaml
 from pathlib import Path
+"""
+config.py
+→ Contient les infos sensibles.
+→ Tu peux éditer ce fichier directement.
+→ Ne PAS le pousser sur GitHub si tu mets tes clés ici !
+"""
 
-BASE_DIR = Path(__file__).resolve().parent
+# --- OPENAI ---
+# modèle gratuit : gpt-4.2-mini
+# modèle meilleur : gpt-5.0 (si tu as accès)
+OPENAI_MODEL = "gpt-5.0"
 
-# Load example config for non-secret defaults
-cfg_path = BASE_DIR.parent / "example_config.yaml"
-with open(cfg_path, "r") as f:
-    DEFAULTS = yaml.safe_load(f)
+# --- INTERVALS ---
+INTERVALS_BASE_URL = "https://intervals.icu/api/v1"
 
-INTERVALS_BASE = os.getenv("INTERVALS_BASE", DEFAULTS.get("INTERVALS_BASE", "https://intervals.icu/api/v1"))
-DAYS_LOOKBACK = int(os.getenv("DAYS_LOOKBACK", DEFAULTS.get("DAYS_LOOKBACK", 300)))
+# --- EMAIL ---
+SMTP_SERVER = "smtp.gmail.com"
+SMTP_PORT = 587
+SMTP_USER = "louis.jeuch@gmail.com"
+USER_EMAIL = "louis.jeuch@gmail.com"
 
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", DEFAULTS.get("OPENAI_MODEL", "gpt-4o-mini"))
-ATHLETE = DEFAULTS.get("ATHLETE", {})
-
-# Output folder
-OUTPUT_DIR = BASE_DIR.parent / "outputs"
-OUTPUT_DIR.mkdir(exist_ok=True)
+# --- DISCORD ---
